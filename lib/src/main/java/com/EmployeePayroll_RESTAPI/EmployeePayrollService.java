@@ -25,4 +25,17 @@ public class EmployeePayrollService {
 	public void addEmployeeToPayroll(EmployeePayrollData employeePayrollData, IOService ioService) {
 		employeePayrollList.add(employeePayrollData);
 	}
+
+	public void updateEmployeeSalary(String name, double salary, IOService ioService) {
+		EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(name);
+		if (employeePayrollData != null)
+			employeePayrollData.salary = salary;
+	}
+
+	public EmployeePayrollData getEmployeePayrollData(String name) {
+		EmployeePayrollData employeePayrollData;
+		employeePayrollData = this.employeePayrollList.stream().filter(dataItem -> dataItem.name.equals(name))
+				.findFirst().orElse(null);
+		return employeePayrollData;
+	}
 }
