@@ -22,7 +22,6 @@ public class EmployeePayrollService {
 		return employeePayrollList.size();
 	}
 
-
 	public void addEmployeeToPayroll(EmployeePayrollData employeePayrollData, IOService ioService) {
 		employeePayrollList.add(employeePayrollData);
 	}

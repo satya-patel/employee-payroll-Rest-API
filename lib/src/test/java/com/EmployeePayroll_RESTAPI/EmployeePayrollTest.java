@@ -67,7 +67,28 @@ public class EmployeePayrollTest {
 		employeePayrollData = new Gson().fromJson(response.asString(), EmployeePayrollData.class);
 		employeePayrollRESTService.addEmployeeToPayroll(employeePayrollData, REST_IO);
 		long entries = employeePayrollRESTService.countEntries(REST_IO);
-		assertEquals(3, entries);
+		assertEquals(6, entries);
+	}
+
+	@Test
+	public void givenMultipleEmployee_WhenAdded_ShouldMatch201ResponseAndCount() {
+		EmployeePayrollData[] arrayOfEmployee = getEmployeeList();
+		employeePayrollRESTService = new EmployeePayrollService(Arrays.asList(arrayOfEmployee));
+		EmployeePayrollData[] arrayOfEmployeePayroll = {
+				new EmployeePayrollData(0, "Akash", "M", 4000000.00, LocalDate.now()),
+				new EmployeePayrollData(0, "Raman", "M", 5000000.00, LocalDate.now()) };
+
+		for (EmployeePayrollData employeePayrollData : arrayOfEmployeePayroll) {
+
+			Response response = addEmployeeToJsonServer(employeePayrollData);
+			int statusCode = response.getStatusCode();
+			assertEquals(201, statusCode);
+
+			employeePayrollData = new Gson().fromJson(response.asString(), EmployeePayrollData.class);
+			employeePayrollRESTService.addEmployeeToPayroll(employeePayrollData, REST_IO);
+		}
+		long entries = employeePayrollRESTService.countEntries(REST_IO);
+		assertEquals(5, entries);
 	}
 
 }
